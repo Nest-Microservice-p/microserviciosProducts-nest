@@ -1,98 +1,187 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+API de Productos - Microservicio con NestJS
+<p align="center"> <a href="https://nestjs.com/" target="_blank"> <img src="https://nestjs.com/img/logo-small.svg" width="120" alt="NestJS Logo" /> </a> </p> <p align="center"> Microservicio desarrollado con NestJS para la gestión de productos utilizando Prisma ORM y SQLite. </p>
+Introducción
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+Este proyecto es un microservicio construido con NestJS enfocado en la gestión de productos mediante operaciones CRUD.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+El sistema implementa:
 
-## Description
+Arquitectura modular
+Validación de datos
+Paginación
+Filtros dinámicos
+Variables de entorno
+ORM tipado
+Manejo de excepciones HTTP
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+El proyecto utiliza Prisma ORM para el acceso a base de datos y SQLite como motor de almacenamiento.
 
-## Project setup
+Tecnologías utilizadas
+NestJS
+TypeScript
+Prisma ORM
+SQLite
+Joi
+Class Validator
+Class Transformer
+¿Qué es NestJS?
 
-```bash
-$ npm install
-```
+NestJS es un framework backend para Node.js basado en TypeScript.
 
-## Compile and run the project
+Su objetivo es facilitar el desarrollo de aplicaciones escalables y mantenibles utilizando:
 
-```bash
-# development
-$ npm run start
+Inyección de dependencias
+Arquitectura modular
+Programación orientada a objetos
+Decoradores
+Controladores y servicios
 
-# watch mode
-$ npm run start:dev
+NestJS está inspirado en Angular, pero enfocado al desarrollo backend.
 
-# production mode
-$ npm run start:prod
-```
+Estructura del proyecto
+src/
+│
+├── productos/
+│   ├── dto/
+│   ├── entities/
+│   ├── productos.controller.ts
+│   ├── productos.service.ts
+│   └── productos.module.ts
+│
+├── common/
+│   └── dto/
+│
+├── config/
+│
+├── prisma.service.ts
+│
+└── main.ts
+Dependencias principales
+Prisma ORM
 
-## Run tests
+Prisma es el ORM utilizado para conectarse y trabajar con la base de datos.
 
-```bash
-# unit tests
-$ npm run test
+Permite:
 
-# e2e tests
-$ npm run test:e2e
+Consultas tipadas
+Migraciones
+Autocompletado
+Validación de esquemas
+Mejor experiencia de desarrollo
+Instalación
+npm install prisma @prisma/client
+Inicialización
+npx prisma init
+Crear migración
+npx prisma migrate dev --name init
+SQLite
 
-# test coverage
-$ npm run test:cov
-```
+SQLite es una base de datos ligera que funciona mediante archivos locales.
 
-## Deployment
+Ventajas:
 
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
+No requiere servidor
+Fácil configuración
+Ideal para pruebas y proyectos pequeños
 
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+Configuración:
 
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
+DATABASE_URL="file:./dev.db"
+Joi
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+Joi se utiliza para validar variables de entorno y configuraciones.
 
-## Resources
+Ejemplo:
 
-Check out a few resources that may come in handy when working with NestJS:
+const envSchema = joi.object({
+  PORT: joi.number().required(),
+}).unknown(true)
+Instalación
+npm install joi
+Class Validator
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+Permite validar DTOs mediante decoradores.
 
-## Support
+Ejemplo:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+@IsString()
+@MinLength(3)
+name:string
+Instalación
+npm install class-validator
+Class Transformer
 
-## Stay in touch
+Transforma automáticamente datos provenientes de requests HTTP.
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+Ejemplo:
 
-## License
+@Type(() => Number)
+page:number
+Instalación
+npm install class-transformer
+Instalación del proyecto
+Clonar repositorio
+git clone URL_DEL_REPOSITORIO
+Entrar al proyecto
+cd productos
+Instalar dependencias
+npm install
+Variables de entorno
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+Crear un archivo .env:
+
+PORT=3003
+DATABASE_URL="file:./dev.db"
+Ejecutar el proyecto
+Desarrollo
+npm run start:dev
+Producción
+npm run start:prod
+Endpoints principales
+Obtener productos
+GET /productos
+Obtener productos disponibles
+GET /productos?disponibles=true
+Paginación
+GET /productos?paginator=1&limit=10
+Obtener producto por ID
+GET /productos/1
+Crear producto
+POST /productos
+Actualizar producto
+PATCH /productos/1
+Eliminar producto
+DELETE /productos/1
+Funcionalidades implementadas
+CRUD completo
+Paginación
+Filtros dinámicos
+Validación de DTOs
+Manejo de excepciones HTTP
+Variables de entorno
+Prisma ORM
+SQLite
+Arquitectura modular
+Comandos útiles
+Ejecutar migraciones
+npx prisma migrate dev
+Abrir Prisma Studio
+npx prisma studio
+Regenerar cliente Prisma
+npx prisma generate
+Ejemplo de respuesta paginada
+{
+  "Productos": [],
+  "metadata": {
+    "Total": 50,
+    "ActualPage": 1,
+    "TotalPages": 5
+  }
+}
+Autor
+
+Cristian Jesus David Ake
+
+Licencia
+
+Proyecto desarrollado con fines educativos utilizando licencia MIT.
