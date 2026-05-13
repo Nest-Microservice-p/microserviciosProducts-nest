@@ -4,19 +4,24 @@ import * as joi from 'joi'
 interface envsVarsInterface{
     PORT:number
     DATABASE_URL:string
+    SERVER_NATS:string[]
 }
 
     const envSchema=joi.object({
         PORT:joi.number().required(),
-        DATABASE_URL:joi.string().required()
+        DATABASE_URL:joi.string().required(),
+        SERVER_NATS:joi.array().items(joi.string()).required()
     }).unknown(true)
 
-    const {error,value}=envSchema.validate(process.env)
+    const {error,value}=envSchema.validate({...process.env,
+        SERVER_NATS:process.env.SERVER_NATS?.split(',')
+    })
 
     if(error)throw new Error('Error en la Validacion de la Configuracion: ' +error.message )
 
     const envsVars=value as envsVarsInterface
 export const envs={
-PORT:envsVars.PORT,
-DATABASE_URL:envsVars.DATABASE_URL
+    PORT:envsVars.PORT,
+    DATABASE_URL:envsVars.DATABASE_URL,
+    NAT_SERVER:envsVars.SERVER_NATS
 }

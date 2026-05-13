@@ -1,9 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { HttpStatus, Injectable } from '@nestjs/common';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
 import { PrismaService } from 'src/prima.service';
 import { Producto } from './entities/producto.entity';
 import { queryPaginator } from 'src/common/dto/dtoQuery';
+import { RpcException } from '@nestjs/microservices';
 
 @Injectable()
 export class ProductosService {
@@ -30,7 +31,7 @@ export class ProductosService {
     };
     } catch (error) {
       console.error(error)
-      throw new Error('Error al ingresar un nuevo producto')
+      throw new RpcException('Error al ingresar un nuevo producto')
     }
 
   }
@@ -58,7 +59,9 @@ export class ProductosService {
       where:{id:idProducto,available:true}
     })
 
-    if(!producto)throw new NotFoundException('No se ha encontrado el producto solicitado')
+    if(!producto)throw new RpcException({message:'No se ha encontrado el producto solicitado '+idProducto,
+      status:HttpStatus.BAD_REQUEST
+    })
 
      return producto
   }
@@ -82,5 +85,18 @@ export class ProductosService {
     return {message:`El producto con id: ${id}, ha sido eliminado correctamente`,
     Producto: await this.prisma.producto.update({where:{id},data:{available:false}})
   }
+  }
+
+
+  async validateProductsIds(idsProducts:number[]){
+    const ids=Array.from(new Set(idsProducts))
+    const products= await this.prisma.producto.findMany({where:{id:{
+      //in:Object.values(ids)
+      in:ids
+    }}})
+
+    if(ids.length!==products.length)throw new RpcException({message:'Algunos Productos no Existen o no Estan Disponibles',status:HttpStatus.BAD_REQUEST})
+
+      return products
   }
 }

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, Query, ParseIntPipe } from '@nestjs/common';
+import { Controller, ParseIntPipe } from '@nestjs/common';
 import { ProductosService } from './productos.service';
 import { CreateProductoDto } from './dto/create-producto.dto';
 import { UpdateProductoDto } from './dto/update-producto.dto';
@@ -33,8 +33,17 @@ export class ProductosController {
     return this.productosService.update(updateProductoDto.id, updateProductoDto);
   }
 
-  @Delete(':id')
+  //@Delete(':id')
+  @MessagePattern({cmd:'deleteProduct'})
   remove(@Payload('id',ParseIntPipe) id: number) {
     return this.productosService.remove(id);
   }
+
+  @MessagePattern({cmd:'validateProducts'})
+  validateProductos(@Payload() idsProducts:number[]){
+    return this.productosService.validateProductsIds(idsProducts)
+  }
+
+
+
 }
