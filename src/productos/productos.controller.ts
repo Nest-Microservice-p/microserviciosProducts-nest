@@ -23,7 +23,7 @@ export class ProductosController {
 
   //@Get(':id')
   @MessagePattern({cmd:'getOne'})
-  findOne(@Payload('id',ParseIntPipe) id: number) {
+  findOne(@Payload('id',ParseIntPipe) id: string) {
     return this.productosService.findOne(id);
   }
 
@@ -35,12 +35,12 @@ export class ProductosController {
 
   //@Delete(':id')
   @MessagePattern({cmd:'deleteProduct'})
-  remove(@Payload('id',ParseIntPipe) id: number) {
+  remove(@Payload('id',ParseIntPipe) id: string) {
     return this.productosService.remove(id);
   }
 
   @MessagePattern({cmd:'validateProducts'})
-  validateProductos(@Payload() idsProducts:number[]){
+  validateProductos(@Payload() idsProducts:string[]){
     return this.productosService.validateProductsIds(idsProducts)
   }
 
