@@ -9,6 +9,5 @@ RUN npm i
 
 COPY . .
 
-RUN npx prisma generate
 
 EXPOSE 3003

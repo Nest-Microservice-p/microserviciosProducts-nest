@@ -23,8 +23,7 @@ export class ProductosService {
         product: newProducto,
       };
     } catch (error) {
-      console.error(error);
-      throw new RpcException('Error al ingresar un nuevo producto');
+      throw new RpcException('Error al ingresar un nuevo producto. ' + error.errorResponse.errmsg);
     }
   }
 
@@ -49,6 +48,7 @@ export class ProductosService {
   }
 
   async findOne(id: string) {
+    try{
     const producto = await this.productoModel.findOne({
       _id: id,
       available: true,
@@ -60,7 +60,13 @@ export class ProductosService {
     });
 
     return producto;
+  }catch(error){
+    throw new RpcException({
+      message: `Error al buscar el producto ${id}. ` + error.message,
+      status: HttpStatus.BAD_REQUEST,
+    });
   }
+}
 
   async update(id: string, updateProductoDto: UpdateProductoDto) {
     const { id: __, ...data } = updateProductoDto;
